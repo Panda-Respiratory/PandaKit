@@ -1,0 +1,356 @@
+print(" ---------------------------------------------------------------------- ")
+print(" [ Exploit Client ] - Blox Hunt - UI Developed by SkieHacker")
+print(" Autofarm Token by: Izaia x Pytho_n")
+print(" Script by: Psykek")
+print(" ---------------------------------------------------------------------- ")
+game.StarterGui:SetCore("SendNotification", {
+Title = "Blox Hunt GUI"; -- the title (ofc)
+Text = "Has been Loaded"; -- what the text says (ofc)
+})
+game.StarterGui:SetCore("SendNotification", {
+Title = "Credit"; -- the title (ofc)
+Text = "Psykek, SkieHacker, and Izaia x Pytho_n"; -- what the text says (ofc)
+})
+local lib = loadstring(game:HttpGet"https://fluxteam.xyz/external-files/lib.lua")()
+
+local window = lib:CreateWindow("Main")
+ 
+window:AddButton("TP Money",function()
+    -- button function
+		local coin = workspace.Lobby.LobbyObby.Token
+coin.CanCollide = false
+for i = 1,50,1 do
+wait()
+coin.CFrame = (game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame)
+end
+coin.CanCollide = true
+    print("Money Teleported to you!")
+end)
+
+window:AddButton("Fly!",function()
+    -- button function
+    print(" [ Exploit Client ] - Fly has been Activated")
+game.StarterGui:SetCore("SendNotification", {
+Title = "Panda Flier"; -- the title (ofc)
+Text = "Press F to Fly"; -- what the text says (ofc)
+Duration = 5; -- how long the notification should in secounds
+})
+ repeat wait()
+   until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:findFirstChild("Torso") and game.Players.LocalPlayer.Character:findFirstChild("Humanoid")
+local mouse = game.Players.LocalPlayer:GetMouse()
+repeat wait() until mouse
+local plr = game.Players.LocalPlayer
+local torso = plr.Character.Torso
+local flying = true
+local deb = true
+local ctrl = {f = 0, b = 0, l = 0, r = 0}
+local lastctrl = {f = 0, b = 0, l = 0, r = 0}
+local maxspeed = 50
+local speed = 0
+
+function Fly()
+local bg = Instance.new("BodyGyro", torso)
+bg.P = 9e4
+bg.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+bg.cframe = torso.CFrame
+local bv = Instance.new("BodyVelocity", torso)
+bv.velocity = Vector3.new(0,0.1,0)
+bv.maxForce = Vector3.new(9e9, 9e9, 9e9)
+repeat wait()
+plr.Character.Humanoid.PlatformStand = true
+if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then
+speed = speed+.5+(speed/maxspeed)
+if speed > maxspeed then
+speed = maxspeed
+end
+elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then
+speed = speed-1
+if speed < 0 then
+speed = 0
+end
+end
+if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then
+bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (ctrl.f+ctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(ctrl.l+ctrl.r,(ctrl.f+ctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed
+lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r}
+elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then
+bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed
+else
+bv.velocity = Vector3.new(0,0.1,0)
+end
+bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0)
+until not flying
+ctrl = {f = 0, b = 0, l = 0, r = 0}
+lastctrl = {f = 0, b = 0, l = 0, r = 0}
+speed = 0
+bg:Destroy()
+bv:Destroy()
+plr.Character.Humanoid.PlatformStand = false
+end
+mouse.KeyDown:connect(function(key)
+if key:lower() == "f" then
+if flying then flying = false
+else
+flying = true
+Fly()
+end
+elseif key:lower() == "w" then
+ctrl.f = 1
+elseif key:lower() == "s" then
+ctrl.b = -1
+elseif key:lower() == "a" then
+ctrl.l = -1
+elseif key:lower() == "d" then
+ctrl.r = 1
+end
+end)
+mouse.KeyUp:connect(function(key)
+if key:lower() == "w" then
+ctrl.f = 0
+elseif key:lower() == "s" then
+ctrl.b = 0
+elseif key:lower() == "a" then
+ctrl.l = 0
+elseif key:lower() == "d" then
+ctrl.r = 0
+end
+end)
+Fly()
+end)
+window:AddButton("Noclip",function()
+    -- button function
+    print(" [ Exploit Client ] - Noclip has been Activated")
+noclip = false
+game:GetService('RunService').Stepped:connect(function()
+if noclip then
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+end
+end)
+plr = game.Players.LocalPlayer
+mouse = plr:GetMouse()
+mouse.KeyDown:connect(function(key)
+
+if key == "n" then
+noclip = not noclip
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+end
+end)
+game.StarterGui:SetCore("SendNotification", {
+Title = "Panda Noclipper"; -- the title (ofc)
+Text = "Press N to Turn ON or OFF Noclip"; -- what the text says (ofc)
+Duration = 5; -- how long the notification should in secounds
+})
+end)
+
+window:AddToggle("Coin Autofarm", function()
+    -- toggle function
+    tog1 = not tog1
+    print(tostring(tog1))
+	_G.Active = tog1
+
+   -- trial
+	local script = Instance.new('LocalScript', ScreenGui)
+	spawn(function()
+    while true do wait()
+        if _G.Active == true then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-92.9, 61.9, 143.5)
+        end
+    end
+    end)
+end)
+
+
+
+
+
+window:AddSlider("Energy",0, 1000, 0, function(var)
+    -- slider function
+	game.ReplicatedStorage.GameFunctions.StatChange:FireServer("Energy", var)
+end)
+
+window:AddButton("Hider",function()
+    -- button function
+    print("ESP Hider ON!")
+		players = game:GetService("Players")
+while wait(1) do
+for i, v in pairs(players:GetChildren()) do
+if v.Name ~= players.LocalPlayer.Name then
+if v.Character and v.Character:FindFirstChild("Object") then
+for j, k in pairs(v.Character.Object:GetChildren()) do
+if k:IsA("Part") then
+k.BrickColor = BrickColor.new("Hot pink")
+end
+end
+end
+end
+end
+end
+end)
+
+
+window:AddButton("Taunt",function()
+    -- button function
+	    print("Taunt Activated!")
+		while true do
+game.ReplicatedStorage.GameFunctions.Taunt:FireServer()
+wait()
+game.ReplicatedStorage.GameFunctions.Taunt:FireServer()
+wait()
+game.ReplicatedStorage.GameFunctions.Taunt:FireServer()
+wait()
+game.ReplicatedStorage.GameFunctions.Taunt:FireServer()
+wait()
+game.ReplicatedStorage.GameFunctions.Taunt:FireServer()
+wait()
+end
+end)
+
+window:AddButton("Kill All Hiders",function()
+    -- button function
+    print("I SEEE U")
+	local shock  = game.ReplicatedStorage.GameFunctions.Shock
+local refill = game.ReplicatedStorage.GameFunctions.StatChange
+
+for _, v in pairs(game.Players:GetPlayers()) do
+if v.Character and v.Character:FindFirstChild'Object' then
+for i=1, 3 do
+shock:FireServer("Hit", v.Character)
+for i=1, 2 do
+refill:FireServer("Energy", 2)
+end
+end
+end
+end
+end)
+
+window:AddButton("Health",function()
+    -- button function
+		game.ReplicatedStorage.GameFunctions.StatChange:FireServer("Health", 10000)
+    print("Increase Health")
+end)
+
+
+window:AddSlider("Jump Power",0, 200, 0, function(var)
+    -- slider function
+	game.Players.LocalPlayer.Character.Humanoid.JumpPower = var
+end)
+
+window:AddSlider("Walkspeed",0, 200, 0, function(var)
+    -- slider function
+	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = var
+end)
+
+-- [ For Gamepass ] --
+
+local pandacore = lib:CreateWindow("Gamepass")
+
+pandacore:AddButton("Gamepass ON",function()
+    -- button function
+	game.Players.LocalPlayer.Information.Gamepasses.FaceChanger.Value = false
+game.Players.LocalPlayer.Information.Gamepasses.Vanish.Value = false
+game.Players.LocalPlayer.Information.Gamepasses.Cloner.Value = false
+game.Players.LocalPlayer.Information.Gamepasses.InstantHide.Value = false
+game.Players.LocalPlayer.Information.Gamepasses.Radar.Value = false
+game.Players.LocalPlayer.Information.Gamepasses.Walkspeed.Value = false
+game.Players.LocalPlayer.Information.Gamepasses.AutoSeeker.Value = false
+game.Players.LocalPlayer.Information.Gamepasses.SeekerPoints.Value = false
+game.StarterGui:SetCore("SendNotification", {
+Title = "Blox Hunt GUI"; -- the title (ofc)
+Text = "Gamepass has been Activated"; -- what the text says (ofc)
+Duration = 6; -- how long the notification should in secounds
+})
+end)
+
+pandacore:AddButton("Gamepass OFF",function()
+    -- button function
+	game.Players.LocalPlayer.Information.Gamepasses.FaceChanger.Value = true
+game.Players.LocalPlayer.Information.Gamepasses.Vanish.Value = true
+game.Players.LocalPlayer.Information.Gamepasses.Cloner.Value = true
+game.Players.LocalPlayer.Information.Gamepasses.InstantHide.Value = true
+game.Players.LocalPlayer.Information.Gamepasses.Radar.Value = true
+game.Players.LocalPlayer.Information.Gamepasses.Walkspeed.Value = true
+game.Players.LocalPlayer.Information.Gamepasses.AutoSeeker.Value = true
+game.Players.LocalPlayer.Information.Gamepasses.SeekerPoints.Value = true
+game.StarterGui:SetCore("SendNotification", {
+Title = "Blox Hunt GUI"; -- the title (ofc)
+Text = "Gamepass has been Deactivated"; -- what the text says (ofc)
+Duration = 6; -- how long the notification should in secounds
+})
+end)
+
+
+local window2 = lib:CreateWindow("Infinite")
+
+window2:AddButton("Inf. Energy",function()
+    -- button function
+	    print("Infinite Health Activated!")
+		while true do
+	game.ReplicatedStorage.GameFunctions.StatChange:FireServer("Energy", 10000)
+wait()
+	game.ReplicatedStorage.GameFunctions.StatChange:FireServer("Energy", 10000)
+wait()
+	game.ReplicatedStorage.GameFunctions.StatChange:FireServer("Energy", 10000)
+wait()
+	game.ReplicatedStorage.GameFunctions.StatChange:FireServer("Energy", 10000)
+wait()
+	game.ReplicatedStorage.GameFunctions.StatChange:FireServer("Energy", 10000)
+wait()
+end
+end)
+
+window2:AddButton("Inf. Health",function()
+    -- button function
+	    print("Infinite Health Activated!")
+		while true do
+game.ReplicatedStorage.GameFunctions.StatChange:FireServer("Health", 10000)
+wait()
+game.ReplicatedStorage.GameFunctions.StatChange:FireServer("Health", 10000)
+wait()
+game.ReplicatedStorage.GameFunctions.StatChange:FireServer("Health", 10000)
+wait()
+game.ReplicatedStorage.GameFunctions.StatChange:FireServer("Health", 10000)
+wait()
+game.ReplicatedStorage.GameFunctions.StatChange:FireServer("Health", 10000)
+wait()
+end
+end)
+
+-- For Fun Only
+
+local window4 = lib:CreateWindow("FE Features")
+window4:AddSlider("Fling (R6)",0, 150, 0, function(var)
+    -- slider function
+	power = var -- change this to make it more or less powerful
+
+game:GetService('RunService').Stepped:connect(function()
+game.Players.LocalPlayer.Character.Head.CanCollide = false
+game.Players.LocalPlayer.Character.Torso.CanCollide = false
+game.Players.LocalPlayer.Character["Left Leg"].CanCollide = false
+game.Players.LocalPlayer.Character["Right Leg"].CanCollide = false
+end)
+
+wait(.1)
+local bambam = Instance.new("BodyThrust")
+bambam.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+bambam.Force = Vector3.new(power,0,power)
+bambam.Location = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+
+end)
+
+window4:AddSlider("Walkspeed",0, 300, 0, function(var)
+    -- slider function
+	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = var
+end)
+
+
+window4:AddButton("Flood",function()
+    -- button function
+local region = Region3.new(Vector3.new(-3250,0,-3250), Vector3.new(3250,150,3250))
+region = region:ExpandToGrid(4)
+game.Workspace.Terrain:FillRegion(region, 4, Enum.Material.Water)
+game.StarterGui:SetCore("SendNotification", {
+Title = "Notice"; -- the title (ofc)
+Text = "This Feature is not FE, but other may see you that you're swimming"; -- what the text says (ofc)
+})
+end)
+
+
